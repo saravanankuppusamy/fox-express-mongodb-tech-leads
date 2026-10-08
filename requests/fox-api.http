@@ -1,0 +1,69 @@
+@base=http://localhost:3000
+
+### Health
+GET {{base}}/health
+
+### List policies
+GET {{base}}/api/policies
+
+### Filter auto policies
+GET {{base}}/api/policies?productType=auto
+
+### Create policy - valid
+POST {{base}}/api/policies
+Content-Type: application/json
+
+{
+  "policyNumber": "FOX-AUTO-1002",
+  "customerName": "Chris Johnson",
+  "email": "chris@example.com",
+  "productType": "auto",
+  "premium": 1425,
+  "status": "quoted",
+  "effectiveDate": "2026-12-01"
+}
+
+### Create policy - invalid (validation demo)
+POST {{base}}/api/policies
+Content-Type: application/json
+
+{
+  "policyNumber": "",
+  "customerName": "",
+  "email": "not-an-email",
+  "productType": "boat",
+  "premium": -1,
+  "effectiveDate": "not-a-date"
+}
+
+### Duplicate policyNumber (409 demo)
+POST {{base}}/api/policies
+Content-Type: application/json
+
+{
+  "policyNumber": "FOX-AUTO-1001",
+  "customerName": "Duplicate Demo",
+  "email": "dup@example.com",
+  "productType": "auto",
+  "premium": 1000,
+  "effectiveDate": "2026-12-01"
+}
+
+### Register admin
+POST {{base}}/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "admin@fox.com",
+  "password": "FoxDemo123!",
+  "role": "admin"
+}
+
+### Login
+POST {{base}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@fox.com",
+  "password": "FoxDemo123!"
+}
